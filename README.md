@@ -6,21 +6,21 @@
 
 - [Instalación](#instalacion)
 - [Uso](#uso)
-	+ [Preparando el modelo de la consulta](#preparando-el-modelo-de-consulta)
-	+ [Creando la primera consulta](#creando-la-primera-consulta)
+    + [Preparando el modelo de la consulta](#preparando-el-modelo-de-consulta)
+    + [Creando la primera consulta](#creando-la-primera-consulta)
 - [Modificadores lógicos](#modificadores-logicos)
-	+ [Modificadores lógicos desde la llamada al método](#modificadores-logicos-desde-la-llamada-al-metodo)
-	+ [Modificadores lógicos encadenados desde la definición de las condiciones](#modificadores-logicos-encadenados-desde-la-definicion-de-las-condiciones)
+    + [Modificadores lógicos desde la llamada al método](#modificadores-logicos-desde-la-llamada-al-metodo)
+    + [Modificadores lógicos encadenados desde la definición de las condiciones](#modificadores-logicos-encadenados-desde-la-definicion-de-las-condiciones)
 - [Condiciones directas o de relación](#condiciones-directas-o-de-relacion)
-	+ [Condiciones de relación](#condiciones-de-relacion)
-		* [Relación pura](#relacion-pura)
-		* [Relación con condiciones en el método](#relacion-con-condiciones-en-el-metodo)
-		* [Relación con condiciones en el argumento](#relacion-con-condiciones-en-el-argumento)
-		* [Modificadores lógicos de la llamada a la condición de relación](#modificadores-logicos-de-la-llamada-a-la-condicion-de-relacion)
-		* [Relaciones compatibles con condiciones de relación](#relaciones-compatibles-con-condiciones-de-relacion)
+    + [Condiciones de relación](#condiciones-de-relacion)
+        * [Relación pura](#relacion-pura)
+        * [Relación con condiciones en el método](#relacion-con-condiciones-en-el-metodo)
+        * [Relación con condiciones en el argumento](#relacion-con-condiciones-en-el-argumento)
+        * [Modificadores lógicos de la llamada a la condición de relación](#modificadores-logicos-de-la-llamada-a-la-condicion-de-relacion)
+        * [Relaciones compatibles con condiciones de relación](#relaciones-compatibles-con-condiciones-de-relacion)
 - [Condicionales de evaluación de la expresión](#condicionales-de-evaluacion-de-la-expresion)
-	+ [Condicional de evaluación "If"](#condicional-de-evaluacion-if)
-	+ [Condicional de evaluación "Based on"](#condicional-de-evaluacion-based-on)
+    + [Condicional de evaluación "If"](#condicional-de-evaluacion-if)
+    + [Condicional de evaluación "Based on"](#condicional-de-evaluacion-based-on)
 - [Pasaje de argumentos a las condiciones](#pasaje-de-argumentos-a-las-condiciones)
 - [Modificador de resultado "Condition"](#modificador-de-resultado-condition)
 - [Condiciones predefinidas incluídas](#condiciones-predefinidas-incluidas)
@@ -53,14 +53,14 @@ use app\models\UsuarioQuery;
 
 class Usuario extends ActiveRecord
 {
-	// ... 
+    // ... 
 
     public static function find()
     {
         return Yii::createObject(UsuarioQuery::className(), [get_called_class()]);
     }
 
-	// ... 
+    // ... 
 }
 ```
 
@@ -72,7 +72,7 @@ use yii\db\ActiveQuery;
 
 class UsuarioQuery extends ActiveQuery
 {
-	// ... 
+    // ... 
 }
 ```
 
@@ -87,9 +87,9 @@ use PuntoGAP\YiiConditions\Conditions;
 
 class UsuarioQuery extends ActiveQuery
 {
-	use Conditions;
+    use Conditions;
 
-	// ... 
+    // ... 
 }
 ```
 
@@ -107,14 +107,14 @@ use yii\db\ActiveQuery;
 
 class UsuarioQuery extends ActiveQuery
 {
-	// ... 
+    // ... 
 
-	public function activos()
-	{
-		return $this->andWhere(['activo' => 1]);
-	}
-	
-	// ... 
+    public function activos()
+    {
+        return $this->andWhere(['activo' => 1]);
+    }
+    
+    // ... 
 }
 ```
 
@@ -129,16 +129,16 @@ use PuntoGAP\YiiConditions\Conditions;
 
 class UsuarioQuery extends ActiveQuery
 {
-	use Conditions;
-	
-	// ... 
+    use Conditions;
+    
+    // ... 
 
-	protected function conditionActivos()
-	{
-		return ['activo' => 1];
-	}
-	
-	// ... 
+    protected function conditionActivos()
+    {
+        return ['activo' => 1];
+    }
+    
+    // ... 
 }
 ```
 
@@ -174,17 +174,17 @@ use PuntoGAP\YiiConditions\Conditions;
 
 class UsuarioQuery extends ActiveQuery
 {
-	use Conditions;
-	
-	protected function conditionTienenTelefono()
-	{
-		return ['not', ['telefono' => null]];
-	}
+    use Conditions;
+    
+    protected function conditionTienenTelefono()
+    {
+        return ['not', ['telefono' => null]];
+    }
 
-	protected function conditionTienenEmail()
-	{
-		return ['not', ['email' => null]];
-	}
+    protected function conditionTienenEmail()
+    {
+        return ['not', ['email' => null]];
+    }
 
 }
 ```
@@ -198,18 +198,18 @@ use app\models\Usuario;
 
 class UsuarioController extends Controller
 {
-	public function actionFoo()
-	{
-		$usuariosConContacto = Usuario::find()
-			->tienenTelefono()
-			->orTienenEmail()
-			->all();
+    public function actionFoo()
+    {
+        $usuariosConContacto = Usuario::find()
+            ->tienenTelefono()
+            ->orTienenEmail()
+            ->all();
 
-		$usuariosSinContacto = Usuario::find()
-			->notTienenTelefono()
-			->andNotTienenEmail()
-			->all();
-	}
+        $usuariosSinContacto = Usuario::find()
+            ->notTienenTelefono()
+            ->andNotTienenEmail()
+            ->all();
+    }
 
 }
 ```
@@ -227,26 +227,26 @@ use PuntoGAP\YiiConditions\Conditions;
 
 class UsuarioQuery extends ActiveQuery
 {
-	use Conditions;
-	
-	protected function conditionTienenTelefono()
-	{
-		return ['not', ['telefono' => null]];
-	}
+    use Conditions;
+    
+    protected function conditionTienenTelefono()
+    {
+        return ['not', ['telefono' => null]];
+    }
 
-	protected function conditionTienenEmail()
-	{
-		return ['not', ['email' => null]];
-	}
+    protected function conditionTienenEmail()
+    {
+        return ['not', ['email' => null]];
+    }
 
-	// Combina las dos condiciones anteriores
-	protected function conditionTienenContacto()
-	{
-		return ['or',
-			'tienenTelefono',
-			'tienenEmail',
-		];
-	}
+    // Combina las dos condiciones anteriores
+    protected function conditionTienenContacto()
+    {
+        return ['or',
+            'tienenTelefono',
+            'tienenEmail',
+        ];
+    }
 
 }
 ```
@@ -262,12 +262,12 @@ use app\models\Usuario;
 
 class UsuarioController extends Controller
 {
-	public function actionFoo()
-	{
-		$usuariosConContacto = Usuario::find()->tienenContacto()->all();
+    public function actionFoo()
+    {
+        $usuariosConContacto = Usuario::find()->tienenContacto()->all();
 
-		$usuariosSinContacto = Usuario::find()->notTienenContacto()->all();
-	}
+        $usuariosSinContacto = Usuario::find()->notTienenContacto()->all();
+    }
 
 }
 ```
@@ -277,43 +277,43 @@ De esta forma nos olvidamos de la complejidad de tener que negar una combinació
 > Es importante tener en cuenta que al incluir condiciones dentro de las definiciones de otras condiciones, estas condiciones individuales incluidas de tipo `string` terminan en última instancia interpretándose como una condición de tipo `array` en la forma en que **Yii** reconoce. Por ejemplo, a continuación se muestra una forma correcta y una incorrecta de incluir una condición:
 
 ```php
-	protected function conditionActivos()
-	{
-		return ['activo' => 1];
-	}
+    protected function conditionActivos()
+    {
+        return ['activo' => 1];
+    }
 
-	protected function conditionTienenTelefono()
-	{
-		return ['not', ['telefono' => null]];
-	}
+    protected function conditionTienenTelefono()
+    {
+        return ['not', ['telefono' => null]];
+    }
 
-	protected function conditionInactivos()
-	{
-		// 'activos' es equivalente a ['activo' => 1]
+    protected function conditionInactivos()
+    {
+        // 'activos' es equivalente a ['activo' => 1]
 
-		return ['not', ['activos']]; // Forma INCORRECTA, devuelve ERROR
-									 // Es equivalente a ['not', [['activo' => 1]]]
+        return ['not', ['activos']]; // Forma INCORRECTA, devuelve ERROR
+                                     // Es equivalente a ['not', [['activo' => 1]]]
 
-		return ['not', 'activos'];   // Forma CORRECTA
-									 // Es equivalente a ['not', ['activo' => 1]]
-	}
+        return ['not', 'activos'];   // Forma CORRECTA
+                                     // Es equivalente a ['not', ['activo' => 1]]
+    }
 ```
 
 > Es posible incluso por cuestiones de legibilidad o semántica, crear condiciones que sean alias de otras.
 
 ```php
-	protected function conditionTienenTelefono()
-	{
-		return ['not', ['telefono' => null]];
-	}
+    protected function conditionTienenTelefono()
+    {
+        return ['not', ['telefono' => null]];
+    }
 
-	protected function conditionConTelefono()
-	{
-		return 'tienenTelefono';
-	}
+    protected function conditionConTelefono()
+    {
+        return 'tienenTelefono';
+    }
 
-	// ->tienenTelefono() y ->conTelefono() 
-	// devolverán el mismo query
+    // ->tienenTelefono() y ->conTelefono() 
+    // devolverán el mismo query
 ```
 
 > Las condiciones pueden anidarse indefinidamente, siempre y cuando haya lógicamente un anidado coherente, sin bucles entre las dependencias de las condiciones.
@@ -337,7 +337,7 @@ use app\models\UsuarioQuery;
 
 class Usuario extends ActiveRecord
 {
-	// ...
+    // ...
 
     public static function find()
     {
@@ -354,7 +354,7 @@ class Usuario extends ActiveRecord
         return $this->hasMany(Post::class, ['usuario_id' => 'id']);
     }
 
-	// ...
+    // ...
 }
 
 ```
@@ -400,12 +400,12 @@ use PuntoGAP\YiiConditions\Conditions;
 
 class LocalidadQuery extends ActiveQuery
 {
-	use Conditions;
+    use Conditions;
 
-	protected function conditionActivas()
-	{
-		return ['activa' => 1];
-	}
+    protected function conditionActivas()
+    {
+        return ['activa' => 1];
+    }
 ```
 
 Esta condición nos permite obtener las localidades "activas" mediante `Localidad::find()->activas()->all()` como ya hemos visto. Pero también nos da automáticamente la posibilidad de consultar los usuarios que pertenecen a localidades activas siguiendo el criterio mencionado anteriormente de encadenar al nombre de la relación, el nombre de la condición "activas" con la notación _camel_case_ de la siguiente manera:
@@ -446,8 +446,8 @@ Aunque justamente la ventaja de este tipo de condición es su capacidad para hac
 ```php
 // Devuelve los usuarios con posts activos o no eliminados
 Usuario::find()->withPosts(['or', 
-	'activos',
-	['not', 'eliminados']
+    'activos',
+    ['not', 'eliminados']
 ])->all(); 
 ```
 
@@ -496,12 +496,12 @@ use app\models\Usuario;
 
 class UsuarioController extends Controller
 {
-	public function actionListarUsuarios()
-	{
-		$filtrarActivos = Yii::$app->request->get('mostrar_activos');
+    public function actionListarUsuarios()
+    {
+        $filtrarActivos = Yii::$app->request->get('mostrar_activos');
 
-		$usuarios = Usuario::find()->activosIf($filtrarActivos)->all();
-	}
+        $usuarios = Usuario::find()->activosIf($filtrarActivos)->all();
+    }
 
 }
 ```
@@ -526,18 +526,18 @@ use app\models\Usuario;
 
 class UsuarioController extends Controller
 {
-	public function actionListarUsuarios()
-	{
-		// Si llega por ejemplo '1', es de valor positivo
-		// Si llega por ejemplo '0', es de valor negativo
-		// Si llega por ejemplo '', es de valor es nulo
-		$conTelefono = Yii::$app->request->get('con_telefono');
+    public function actionListarUsuarios()
+    {
+        // Si llega por ejemplo '1', es de valor positivo
+        // Si llega por ejemplo '0', es de valor negativo
+        // Si llega por ejemplo '', es de valor es nulo
+        $conTelefono = Yii::$app->request->get('con_telefono');
 
-		// Devuelve usuarios "con teléfono" si es de valor positivo
-		// Devuelve usuarios "sin teléfono" si es de valor negativo
-		// Devuelve todos los usuarios si es de valor nulo
-		$usuarios = Usuario::find()->tienenTelefonoBasedOn($conTelefono)->all();
-	}
+        // Devuelve usuarios "con teléfono" si es de valor positivo
+        // Devuelve usuarios "sin teléfono" si es de valor negativo
+        // Devuelve todos los usuarios si es de valor nulo
+        $usuarios = Usuario::find()->tienenTelefonoBasedOn($conTelefono)->all();
+    }
 
 }
 ```
@@ -564,7 +564,7 @@ Lo más probable es que no tardemos demasiado en necesitar definir condiciones q
 ```php
 // Definición de la condición
 protected function conditionFoo($param1, $param2) {
-	// ...
+    // ...
 }
 
 // Llamado a la condición
@@ -576,13 +576,13 @@ Model::foo('val1', 'val2')->all();
 ```php
 // Definición de condición dependiente de foo con parámetros fijos
 protected function conditionBar() {
-	return 'foo:val1,val2';
+    return 'foo:val1,val2';
 }
 
 // Definición de condición dependiente de foo con un parámetro fijo y uno variable
 protected function conditionBaz($param1) {
-	// Nótese las comillas dobles para la interpolación de $param1
-	return "foo:val1,$param1";
+    // Nótese las comillas dobles para la interpolación de $param1
+    return "foo:val1,$param1";
 }
 
 // Equivale a llamar Model::foo('val1', 'val2')->all();
@@ -612,22 +612,22 @@ use PuntoGAP\YiiConditions\Conditions;
 
 class UsuarioQuery extends ActiveQuery
 {
-	use Conditions;
+    use Conditions;
 
-	protected function conditionActivos()
-	{
-		return ['activo' => 1];
-	}
+    protected function conditionActivos()
+    {
+        return ['activo' => 1];
+    }
 
-	protected function conditionTienenTelefono()
-	{
-		return ['not', ['telefono' => null]];
-	}
+    protected function conditionTienenTelefono()
+    {
+        return ['not', ['telefono' => null]];
+    }
 
-	protected function conditionEjemplo()
-	{
-		return ['and', 'activos', 'tienenTelefono'];
-	}
+    protected function conditionEjemplo()
+    {
+        return ['and', 'activos', 'tienenTelefono'];
+    }
 ```
 
 ```php
@@ -639,19 +639,19 @@ use app\models\Usuario;
 
 class UsuarioController extends Controller
 {
-	public function actionFoo()
-	{
-		// Ejemplo de la condición original
-		$condicionPositiva = Usuario::find()->ejemploCondition();
-		// Retorna ['and', ['activo' => 1], ['not', ['telefono' => null]]]
-		
-		// Ejemplo de la condición "negada"
-		$condicionNegada = Usuario::find()->notEjemploCondition();
-		// Retorna ['not', ['and', ['activo' => 1], ['not', ['telefono' => null]]]]
+    public function actionFoo()
+    {
+        // Ejemplo de la condición original
+        $condicionPositiva = Usuario::find()->ejemploCondition();
+        // Retorna ['and', ['activo' => 1], ['not', ['telefono' => null]]]
+        
+        // Ejemplo de la condición "negada"
+        $condicionNegada = Usuario::find()->notEjemploCondition();
+        // Retorna ['not', ['and', ['activo' => 1], ['not', ['telefono' => null]]]]
 
-		// Cualquiera de las condiciones es compatible con ActiveQuery de Yii
-		Usuario::find()->where($condicionPositiva)->all();
-	}
+        // Cualquiera de las condiciones es compatible con ActiveQuery de Yii
+        Usuario::find()->where($condicionPositiva)->all();
+    }
 
 }
 ```
@@ -663,7 +663,7 @@ Model::find()->andNotFooCondition();
 Model::find()->orFooBasedOnCondition($condicion);
 Foo::find()->withBarCondition()->all();
 Foo::find()->orNotWithBarBasedOnCondition($condicion, [
-	'and', 'oneCondition', 'anotherCondition',
+    'and', 'oneCondition', 'anotherCondition',
 ])->all();
 ```
 
@@ -715,7 +715,7 @@ El paquete también incluye un etiquetado de condiciones, análogo a los _"attri
 public function conditionsLabels()
 {
     return [
-    	// ...
+        // ...
     ];
 }
 
@@ -733,13 +733,13 @@ use yii\db\ActiveQuery;
 
 class UsuarioQuery extends ActiveQuery
 {
-	public function conditionsLabels()
-	{
-	    return [
-	    	'activos' => 'Activos',
-	    	'withLocalidadActivas' => 'Con localidad activa',
-	    ];
-	}
+    public function conditionsLabels()
+    {
+        return [
+            'activos' => 'Activos',
+            'withLocalidadActivas' => 'Con localidad activa',
+        ];
+    }
 }
 ```
 
