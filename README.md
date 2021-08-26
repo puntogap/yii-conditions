@@ -4,28 +4,28 @@
 
 ## Tabla de contenidos
 
-- [Instalación](#instalacion)
+- [Instalación](#instalación)
 - [Uso](#uso)
-    + [Preparando el modelo de la consulta](#preparando-el-modelo-de-consulta)
+    + [Preparando el modelo de la consulta](#preparando-el-modelo-de-la-consulta)
     + [Creando la primera consulta](#creando-la-primera-consulta)
-- [Modificadores lógicos](#modificadores-logicos)
-    + [Modificadores lógicos desde la llamada al método](#modificadores-logicos-desde-la-llamada-al-metodo)
-    + [Modificadores lógicos encadenados desde la definición de las condiciones](#modificadores-logicos-encadenados-desde-la-definicion-de-las-condiciones)
-- [Condiciones directas o de relación](#condiciones-directas-o-de-relacion)
-    + [Condiciones de relación](#condiciones-de-relacion)
-        * [Relación pura](#relacion-pura)
-        * [Relación con condiciones en el método](#relacion-con-condiciones-en-el-metodo)
-        * [Relación con condiciones en el argumento](#relacion-con-condiciones-en-el-argumento)
-        * [Modificadores lógicos de la llamada a la condición de relación](#modificadores-logicos-de-la-llamada-a-la-condicion-de-relacion)
-        * [Relaciones compatibles con condiciones de relación](#relaciones-compatibles-con-condiciones-de-relacion)
-- [Condicionales de evaluación de la expresión](#condicionales-de-evaluacion-de-la-expresion)
-    + [Condicional de evaluación "If"](#condicional-de-evaluacion-if)
-    + [Condicional de evaluación "Based on"](#condicional-de-evaluacion-based-on)
+- [Modificadores lógicos](#modificadores-lógicos)
+    + [Modificadores lógicos desde la llamada al método](#modificadores-lógicos-desde-la-llamada-al-método)
+    + [Modificadores lógicos encadenados desde la definición de las condiciones](#modificadores-lógicos-encadenados-desde-la-definición-de-las-condiciones)
+- [Condiciones directas o de relación](#condiciones-directas-o-de-relación)
+    + [Condiciones de relación](#condiciones-de-relación)
+        * [Relación pura](#relación-pura)
+        * [Relación con condiciones en el método](#relación-con-condiciones-en-el-método)
+        * [Relación con condiciones en el argumento](#relación-con-condiciones-en-el-argumento)
+        * [Modificadores lógicos de la llamada a la condición de relación](#modificadores-lógicos-de-la-llamada-a-la-condición-de-relación)
+        * [Relaciones compatibles con condiciones de relación](#relaciones-compatibles-con-condiciones-de-relación)
+- [Condicionales de evaluación de la expresión](#condicionales-de-evaluación-de-la-expresión)
+    + [Condicional de evaluación "If"](#condicional-de-evaluación-if)
+    + [Condicional de evaluación "Based on"](#condicional-de-evaluación-based-on)
 - [Pasaje de argumentos a las condiciones](#pasaje-de-argumentos-a-las-condiciones)
 - [Modificador de resultado "Condition"](#modificador-de-resultado-condition)
-- [Condiciones predefinidas incluídas](#condiciones-predefinidas-incluidas)
+- [Condiciones predefinidas incluídas](#condiciones-predefinidas-incluídas)
 - [Etiquetas de condiciones](#etiquetas-de-condiciones)
-- [Términos utilizados](#terminos-utilizados)
+- [Términos utilizados](#términos-utilizados)
 - [Observaciones](#observaciones)
 
 ## Instalación
@@ -39,7 +39,7 @@ composer require puntogap/yii-conditions
 
 ## Uso
 
-#### Preparando el modelo de consulta
+### Preparando el modelo de consulta
 
 Lo primero que se requiere para comenzar a trabajar con _Yii Conditions_ es un modelo que extiende de la clase
 `yii\db\ActiveRecord`, y su finder configurado a una instancia que extienda de la clase `yii\db\ActiveQuery`. Esta última instancia es la que implementará la presente extensión. A modo de ejemplo, supongamos que tenemos una clase para el modelo de usuarios:
@@ -95,7 +95,7 @@ class UsuarioQuery extends ActiveQuery
 
 Con este agregado la clase ya está preparada para usar _Yii Conditions_.
 
-#### Creando la primera condición.
+### Creando la primera condición.
 
 Supongamos que en la clase de consultas original hay un método para consultar (o modificar la consulta) sobre los usuarios activos.
 
@@ -148,7 +148,7 @@ El trait `Conditions` actúa de forma que al consultar `app\models\Usuario::find
 
 ## Modificadores lógicos
 
-#### Modificadores lógicos desde la llamada al método
+### Modificadores lógicos desde la llamada al método
 
 Una vez definida una condición cualquiera `conditionFoo()`, podemos invocar los siguientes métodos:
 
@@ -214,7 +214,7 @@ class UsuarioController extends Controller
 }
 ```
 
-#### Modificadores lógicos encadenados desde la definición de las condiciones
+### Modificadores lógicos encadenados desde la definición de las condiciones
 
 Del ejemplo anterior, podemos encapsular la consulta de usuarios con contacto y hacerla reutilizable mediante otro método en la clase de consultas de la siguiente manera:
 
@@ -323,7 +323,7 @@ De esta forma nos olvidamos de la complejidad de tener que negar una combinació
 
 Hasta ahora hemos definido un tipo de condición, las **condiciones directas**, que aplican directamente sobre el modelo en cuestión y su entidad correspondiente en la base de datos _(independientemente de que se realicen joins, in(), y demás operadores, ver detalle en [Observaciones](#observaciones))_. Existe la posibilidad de construir consultas basadas en las relaciones definidas en los modelos ActiveRecord, ampliando muchísimo más las posibilidades de modularización y reutilización de las consultas definidas.
 
-#### Condiciones de relación
+### Condiciones de relación
 
 Las **condiciones de relación** nos permiten, dada una relación definida en nuestro modelo ActiveQuery, poder utilizarla como parte de una consulta para condicionar el resultado de la consulta en base a la existencia o no de instancias relacionadas a través de dicha relación. Continuamos con el ejemplo de la clase `Usuario` a continuación para ver los diferentes tipos de condiciones de relación posibles.
 
@@ -359,7 +359,7 @@ class Usuario extends ActiveRecord
 
 ```
 
-###### Relación pura
+#### Relación pura
 
 Consiste en consultar por la existencia de elementos de dicha relación tal y como fue definida.
 
@@ -379,9 +379,9 @@ Usuario::find()->withLocalidad()->all();
 Usuario::find()->withPosts()->all(); 
 ```
 
-Como podemos ver, tantos las relaciones `hasOne` como `hasMany` son compatibles con las condiciones de relación _(ver las [relaciones compatibles](#relaciones-compatibles-con-condiciones-de-relacion) con condiciones de relación)_.
+Como podemos ver, tantos las relaciones `hasOne` como `hasMany` son compatibles con las condiciones de relación _(ver las [relaciones compatibles](#relaciones-compatibles-con-condiciones-de-relación) con condiciones de relación)_.
 
-###### Relación con condiciones en el método
+#### Relación con condiciones en el método
 
 Añadiendo al llamado de la condición de relación pura una relación o sucesión de relaciones puras, siempre en formato _camel_case_, podemos también condicionar la propia relación a la que referimos en la consulta, conservando claridad y una fácil legibilidad en el código. 
 
@@ -419,7 +419,7 @@ Usuario::find()->withLocalidadActivas()->all();
 
 > La obtención del nombre de relación y las subsecuentes condiciones desde el método invocado, es según primero/a encontrado/a.
 
-###### Relación con condiciones en el argumento
+#### Relación con condiciones en el argumento
 
 Si necesitamos personalizar el condicionamiento de la relación por la que se está filtrando, puede pasarse dicha condición como primer argumento del llamado a la condición de relación de la siguiente forma:
 
@@ -451,7 +451,7 @@ Usuario::find()->withPosts(['or',
 ])->all(); 
 ```
 
-###### Modificadores lógicos de la llamada a la condición de relación
+#### Modificadores lógicos de la llamada a la condición de relación
 
 Todas las llamadas a condiciones de relación admiten los mismos modificadores lógicos desde la llamada al método.
 
@@ -467,7 +467,7 @@ Foo::find()->andWithBarOneCondition()->all();
 Foo::find()->orNotWithBar('anotherCondition')->all();
 ```
 
-###### Relaciones compatibles con condiciones de relación
+#### Relaciones compatibles con condiciones de relación
 
 Las relaciones que pueden ser utilizadas pueden ser tanto ser simples como compuestas. Y en caso de ser compuestas, son compatibles tanto las que son construídas utilizando los métodos `via` como `viaTable`. Asimismo si las relaciones tienen alguna modificación en el query como un "andWhere", "andCondition" en su implementación, esta modificación será conservada.
 La construcción de las consultas relacionadas no se realiza mediante _joins_, sino sobre _subqueries anidados_, tanto para evitar _conflictos con colisiones_ cuando las relaciones incluyen personalizaciones en sus implementaciones; como paraevitar el problema de duplicación de elementos en los casos de relaciones _hasMany_.
@@ -477,7 +477,7 @@ La construcción de las consultas relacionadas no se realiza mediante _joins_, s
 
 A menudo es necesario aplicar una condición a una consulta únicamente si se cumple cierto criterio, o bien se quiere consultar por una condición sea de forma positiva o negativa en base a un parámetro, por ejemplo en una generación de reportes.
 
-#### Condicional de evaluación "If"
+### Condicional de evaluación "If"
 
 Este condicional funciona agregando el sufijo "If" al nombre del método. Al hacer esto, el método espera recibir un argumento, y recibirá la condición dado el valor de veracidad de este parámetro. Si el parámetro retorna un valor equivalente a `true`, la condición se encadenará a la consulta, sino, se omitirá. 
 
@@ -506,7 +506,7 @@ class UsuarioController extends Controller
 }
 ```
 
-#### Condicional de evaluación "Based on"
+### Condicional de evaluación "Based on"
 
 Este condicional funciona agregando el sufijo "BasedOn" al nombre del método. Al igual que el condicional "If", espera recibir un argumento, pero a diferencia de este, el "Based On" devuelve la condición positiva o negativa según el valor de veracidad del argumento, y omite la condición si el argumento tiene valor nulo. 
 Los valores interpretados como nulos son `null` y cadena vacía, o una cadena con sólo espacios. El resto de valores de valor de veracidad falso, como `false`, `0`, `[]` son interpretados como valor negativo y darán como resultado la negación de la condición.
@@ -542,7 +542,7 @@ class UsuarioController extends Controller
 }
 ```
 
-Todos los _[modificadores lógicos](#modificadores-logicos-desde-la-llamada-al-metodo)_ listados son compatibles con los _condicionales de evaluación_. Tanto las condiciones directas como de relación admiten estos condicionales. Estos son algunos ejemplos:
+Todos los _[modificadores lógicos](#modificadores-lógicos-desde-la-llamada-al-método)_ listados son compatibles con los _condicionales de evaluación_. Tanto las condiciones directas como de relación admiten estos condicionales. Estos son algunos ejemplos:
 
 ```php
 Model::find()->andFooIf($condicion)->all();
@@ -592,11 +592,11 @@ Model::bar()->all();
 Model::baz('val3')->all();
 ```
 
-- Las relaciones puras no llevan argumentos. Justamente el hecho que sean puras significa que no están condicionadas a ningún criterio adicional. La única posibilidad existente es utilizar un único argumento, y esto transforma automáticamente a la condición en una [relación con condiciones en el argumento](#relacion-con-condiciones-en-el-argumento).
+- Las relaciones puras no llevan argumentos. Justamente el hecho que sean puras significa que no están condicionadas a ningún criterio adicional. La única posibilidad existente es utilizar un único argumento, y esto transforma automáticamente a la condición en una [relación con condiciones en el argumento](#relación-con-condiciones-en-el-argumento).
 
 - Las relaciones con condiciones en el método reciben la cantidad de argumentos que sea necesaria. Este o estos argumentos serán aplicados por igual a cada una de las condiciones. El uso de argumentos en este caso es útil principalmente para cuando se utiliza una única condicion, que es caso más habitual. Si necesitase argumentarse de forma diferente dos o más condiciones, siempre está la posibilidad de usar el array de condiciones, con los argumentos concatenados en las sub-condiciones seguidos de `:`, como se menciona anteriormente.
 
-- Al aplicarse condicionales de evaluación "If" o "Based On", siempre se desplazan los argumentos una posición, dejando el primer lugar para el argumento del condicional de evaluación, como se explica [anteriormente](#condicionales-de-evaluacion-de-la-expresion).
+- Al aplicarse condicionales de evaluación "If" o "Based On", siempre se desplazan los argumentos una posición, dejando el primer lugar para el argumento del condicional de evaluación, como se explica [anteriormente](#condicionales-de-evaluación-de-la-expresión).
 
 
 ## Modificador de resultado "Condition"
@@ -656,7 +656,7 @@ class UsuarioController extends Controller
 }
 ```
 
-Todos los _[modificadores lógicos](#modificadores-logicos-desde-la-llamada-al-metodo)_ listados así como los  _[condicionales de evaluación](#condicionales-de-evaluacion-de-la-expresion)_ son compatibles con el _modificador de resultado_. Tanto las condiciones directas como de relación lo admiten por igual. Estos son algunos ejemplos:
+Todos los _[modificadores lógicos](#modificadores-lógicos-desde-la-llamada-al-método)_ listados así como los  _[condicionales de evaluación](#condicionales-de-evaluación-de-la-expresión)_ son compatibles con el _modificador de resultado_. Tanto las condiciones directas como de relación lo admiten por igual. Estos son algunos ejemplos:
 
 ```php
 Model::find()->andNotFooCondition();
