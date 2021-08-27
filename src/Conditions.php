@@ -107,14 +107,6 @@ trait Conditions
         return "condition".ucfirst($conditionName);
     }
 
-
-
-
-
-
-
-
-
    	/**
      * Condición general disponible para todos los queries,para filtrar por id 
      * de clave primaria.
