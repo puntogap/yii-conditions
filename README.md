@@ -186,7 +186,6 @@ class UsuarioQuery extends ActiveQuery
     {
         return ['not', ['email' => null]];
     }
-
 }
 ```
 
@@ -211,7 +210,6 @@ class UsuarioController extends Controller
             ->andNotTienenEmail()
             ->all();
     }
-
 }
 ```
 
@@ -248,7 +246,6 @@ class UsuarioQuery extends ActiveQuery
             'tienenEmail',
         ];
     }
-
 }
 ```
 
@@ -269,7 +266,6 @@ class UsuarioController extends Controller
 
         $usuariosSinContacto = Usuario::find()->notTienenContacto()->all();
     }
-
 }
 ```
 
@@ -278,43 +274,43 @@ De esta forma nos olvidamos de la complejidad de tener que negar una combinació
 > Es importante tener en cuenta que al incluir condiciones dentro de las definiciones de otras condiciones, estas condiciones individuales incluidas de tipo `string` terminan en última instancia interpretándose como una condición de tipo `array` en la forma en que **Yii** reconoce. Por ejemplo, a continuación se muestra una forma correcta y una incorrecta de incluir una condición:
 
 ```php
-    protected function conditionActivos()
-    {
-        return ['activo' => 1];
-    }
+protected function conditionActivos()
+{
+    return ['activo' => 1];
+}
 
-    protected function conditionTienenTelefono()
-    {
-        return ['not', ['telefono' => null]];
-    }
+protected function conditionTienenTelefono()
+{
+    return ['not', ['telefono' => null]];
+}
 
-    protected function conditionInactivos()
-    {
-        // 'activos' es equivalente a ['activo' => 1]
+protected function conditionInactivos()
+{
+    // 'activos' es equivalente a ['activo' => 1]
 
-        return ['not', ['activos']]; // Forma INCORRECTA, devuelve ERROR
-                                     // Es equivalente a ['not', [['activo' => 1]]]
+    return ['not', ['activos']]; // Forma INCORRECTA, devuelve ERROR
+                                 // Es equivalente a ['not', [['activo' => 1]]]
 
-        return ['not', 'activos'];   // Forma CORRECTA
-                                     // Es equivalente a ['not', ['activo' => 1]]
-    }
+    return ['not', 'activos'];   // Forma CORRECTA
+                                 // Es equivalente a ['not', ['activo' => 1]]
+}
 ```
 
 > Es posible incluso por cuestiones de legibilidad o semántica, crear condiciones que sean alias de otras.
 
 ```php
-    protected function conditionTienenTelefono()
-    {
-        return ['not', ['telefono' => null]];
-    }
+protected function conditionTienenTelefono()
+{
+    return ['not', ['telefono' => null]];
+}
 
-    protected function conditionConTelefono()
-    {
-        return 'tienenTelefono';
-    }
+protected function conditionConTelefono()
+{
+    return 'tienenTelefono';
+}
 
-    // ->tienenTelefono() y ->conTelefono() 
-    // devolverán el mismo query
+// ->tienenTelefono() y ->conTelefono() 
+// devolverán el mismo query
 ```
 
 > Las condiciones pueden anidarse indefinidamente, siempre y cuando haya lógicamente un anidado coherente, sin bucles entre las dependencias de las condiciones.
@@ -357,7 +353,6 @@ class Usuario extends ActiveRecord
 
     // ...
 }
-
 ```
 
 #### Relación pura
@@ -407,6 +402,9 @@ class LocalidadQuery extends ActiveQuery
     {
         return ['activa' => 1];
     }
+
+    // ...
+}
 ```
 
 Esta condición nos permite obtener las localidades "activas" mediante `Localidad::find()->activas()->all()` como ya hemos visto. Pero también nos da automáticamente la posibilidad de consultar los usuarios que pertenecen a localidades activas siguiendo el criterio mencionado anteriormente de encadenar al nombre de la relación, el nombre de la condición "activas" con la notación _camel_case_ de la siguiente manera:
@@ -503,7 +501,6 @@ class UsuarioController extends Controller
 
         $usuarios = Usuario::find()->activosIf($filtrarActivos)->all();
     }
-
 }
 ```
 
@@ -539,7 +536,6 @@ class UsuarioController extends Controller
         // Devuelve todos los usuarios si es de valor nulo
         $usuarios = Usuario::find()->tienenTelefonoBasedOn($conTelefono)->all();
     }
-
 }
 ```
 
@@ -629,6 +625,9 @@ class UsuarioQuery extends ActiveQuery
     {
         return ['and', 'activos', 'tienenTelefono'];
     }
+
+    // ...
+}
 ```
 
 ```php
@@ -653,7 +652,6 @@ class UsuarioController extends Controller
         // Cualquiera de las condiciones es compatible con ActiveQuery de Yii
         Usuario::find()->where($condicionPositiva)->all();
     }
-
 }
 ```
 
@@ -716,13 +714,6 @@ $condicion = Usuario::find()->activos()->orElemsCondition([3, 4]);
 // Ejecuta la consulta
 Usuario::find()->where($condicion)->all();
 ```
-
-
-
-
-
-
-
 
 
 ## Etiquetas de condiciones
