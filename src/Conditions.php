@@ -11,7 +11,7 @@ use MatiasMuller\MethodsStacks\StackableCall;
 use PuntoGAP\YiiConditions\ConditionsHandler;
 
 /**
- * Conditions es el trait que se añade a las clases heredadas de 
+ * Conditions es el trait que se añade a las clases heredadas de
  * yii\base\ActiveQuery para añadirle la funcionalidad de Yii Conditions.
  *
  * @author Matías Müller <matias.muller@hotmail.com>
@@ -21,9 +21,9 @@ trait Conditions
     use StackableCall;
 
     /**
-     * Token para comunicarse con ConditionsHandler, generado desde 
+     * Token para comunicarse con ConditionsHandler, generado desde
      * static::getConditionsHandlerToken()
-     * 
+     *
      * @var string|null
      */
     protected static $conditionsHandlerToken = null;
@@ -31,13 +31,13 @@ trait Conditions
     /**
      * Obtiene el token que utilizará para comunicarse con ConditionsHandler. Persiste
      * el valor durante toda la ejecución en static::$conditionsHandlerToken
-     * 
+     *
      * @return string Token
      */
     protected static function getConditionsHandlerToken()
     {
         if (!static::$conditionsHandlerToken) {
-            // Generación del token para vincular 
+            // Generación del token para vincular
             // Conditions con su Handler
             $token = (string)mt_rand();
             static::$conditionsHandlerToken = $token;
@@ -48,37 +48,37 @@ trait Conditions
     /**
      * Método de la pila de __call, que invoca el ConditionHandler para procesar
      * la llamada a los métodos de condiciones.
-     * 
-     * @param  string $name 
-     * @param  array  $args 
+     *
+     * @param  string $name
+     * @param  array  $args
      * @return ActiveQuery|array|bool|string nextCallMethod constant
      */
     public function __callfromConditions($name, $args)
     {
         $token = static::getConditionsHandlerToken();
-        return ConditionsHandler::handleCall($this, $name, $args, $token) 
+        return ConditionsHandler::handleCall($this, $name, $args, $token)
             ?: $this->nextCallMethod();
     }
 
     /**
-     * Permite evaluar de igual forma en que Yii utiliza el método where(), pero 
+     * Permite evaluar de igual forma en que Yii utiliza el método where(), pero
      * soporta "raw conditions".
-     * 
-     * @param  array|string $condition 
+     *
+     * @param  array|string $condition
      * @param  array $options
      * @return ActiveQuery
      */
     public function whereCondition($condition, $options = [])
     {
         $token = static::getConditionsHandlerToken();
-        return ConditionsHandler::handleCondition($this, $condition, $options, $token) 
+        return ConditionsHandler::handleCondition($this, $condition, $options, $token)
             ?: $this->nextCallMethod();
     }
 
     /**
      * Agrega una condición a la existente, combinándola con el operador `AND`
-     * 
-     * @param  array|string $condition 
+     *
+     * @param  array|string $condition
      * @param  array $options
      * @return ActiveQuery
      */
@@ -90,8 +90,8 @@ trait Conditions
 
     /**
      * Agrega una condición a la existente, combinándola con el operador `OR`
-     * 
-     * @param  array|string $condition 
+     *
+     * @param  array|string $condition
      * @param  array $options
      * @return ActiveQuery
      */
@@ -103,12 +103,12 @@ trait Conditions
 
     /**
      * Devuelve las "raw conditions" de los métodos de conditions usualmente
-     * declarados como protected. A este método sólo se tiene acceso mediante el 
+     * declarados como protected. A este método sólo se tiene acceso mediante el
      * token static::$conditionsHandlerToken que conoce el ConditionsHandler.
-     * 
-     * @param  string $conditionName  
-     * @param  array  $args  
-     * @param  string $token  
+     *
+     * @param  string $conditionName
+     * @param  array  $args
+     * @param  string $token
      * @return array|string raw condition
      */
     public function getRawCondition($conditionName, $args, $token)
@@ -124,8 +124,8 @@ trait Conditions
     /**
      * Si existe la condición, devuelve el nombre del método, sino retorna null.
      * FIXME: Falta validar que el nombre de la condición comience en minúscula.
-     * 
-     * @param  string $conditionName  
+     *
+     * @param  string $conditionName
      * @return string|null
      */
     public function existsCondition($conditionName)
@@ -136,21 +136,21 @@ trait Conditions
 
     /**
      * Genera el nombre del método de la condición, dado un nombre de condición.
-     * 
-     * @param  string $conditionName  
+     *
+     * @param  string $conditionName
      * @return string
      */
-    protected function methodFromConditionName($conditionName) 
+    protected function methodFromConditionName($conditionName)
     {
         return "condition".ucfirst($conditionName);
     }
 
     /**
-     * Condición general disponible para todos los queries,para filtrar por id 
+     * Condición general disponible para todos los queries,para filtrar por id
      * de clave primaria.
      * NOTE: Actualmente implementado con relaciones de un solo campo.
      * TODO: Implementar para relaciones compuestas.
-     * 
+     *
      * @return array raw condition
      */
     protected function conditionElems()
@@ -160,7 +160,7 @@ trait Conditions
 
         //>>!!! CUIDADO CON array_flatten, que no es nativa de PHP
 
-        // Se asegura que lleguen como lleguen los datos, 
+        // Se asegura que lleguen como lleguen los datos,
         // se vuelquen en un único array
         $elems = array_flatten(array_map(function($arg) {
             return is_array($arg) ? $arg : preg_split('/\D+/', $arg);
@@ -184,7 +184,7 @@ trait Conditions
 
     /**
      * Devuelve la etiqueta correspondiente a la condición especificada.
-     * 
+     *
      * @param  string $condition
      * @return string
      * @see generateConditionLabel()
@@ -202,7 +202,7 @@ trait Conditions
      * Genera una etiqueta amigable para el usuario, basada en una condición dada.
      * Interpreta las notaciones camel case o snake case devolviendo las palabras
      * separadas capitalizadas.
-     * 
+     *
      * @param  string $name
      * @return string
      */

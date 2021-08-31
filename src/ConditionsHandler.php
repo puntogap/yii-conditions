@@ -129,7 +129,7 @@ class ConditionsHandler
     }
 
     /**
-     * Atajo para procesar una "raw condition" directamente, sin necesidad de 
+     * Atajo para procesar una "raw condition" directamente, sin necesidad de
      * invocar la creación de instancia.
      *
      * @param  ActiveQuery  $query
@@ -179,7 +179,7 @@ class ConditionsHandler
 
     /**
      * Hace un parseo de la llamada de método. Si corresponde con la forma de una
-     * condición, lee los datos para completar los atributos de la instancia. 
+     * condición, lee los datos para completar los atributos de la instancia.
      * Retorna si el parseo ha sido correcto.
      *
      * @return bool
@@ -198,12 +198,12 @@ class ConditionsHandler
     }
 
     /**
-     * Evalúa el valor de entrada y devuelve uno los tres posibles valores de 
+     * Evalúa el valor de entrada y devuelve uno los tres posibles valores de
      * significancia, `true`, `false` o `null`. `true` o `false` son valores con
      * significancia, pero positiva o negativa respectivamente. `null` significa
      * un valor sin significancia.
      * NOTE: Este podría ser un helper general.
-     * 
+     *
      * @param  mixed $input
      * @return bool|null Valor de significancia
      */
@@ -325,7 +325,7 @@ class ConditionsHandler
 
             // Posterior aplicación de condiciones a la relación
             $this->applyConditionsToRelation(
-                $preparedResult->relation, 
+                $preparedResult->relation,
                 $splittedWords->conditionsWords
             );
 
@@ -335,7 +335,7 @@ class ConditionsHandler
     }
 
     /**
-     * aplicación de condiciones a la relación según haya llegado con palabras de 
+     * aplicación de condiciones a la relación según haya llegado con palabras de
      * condiciones o no.
      *
      * @param  ActiveRecord $subQuery
@@ -351,15 +351,15 @@ class ConditionsHandler
                 // Aplica todas las condiciones al query de la relación
                 foreach ($conditions as $condition) {
                     // Llama el metodo "virtual"
-                    // TODO: Ver si se puede dar una solución a la entrada de 
-                    // argumentos a la función whereCondition para hacer uso de 
+                    // TODO: Ver si se puede dar una solución a la entrada de
+                    // argumentos a la función whereCondition para hacer uso de
                     // ésta en esta parte en lugar de llamar al método virtual.
                     call_user_func_array([$subQuery, $condition], $this->args);
                 }
             }
         }
-        // Si no tiene condiciones de la relación en el método, entonces toma como 
-        // condiciones el primer argumento, que puede ser una condición o array de 
+        // Si no tiene condiciones de la relación en el método, entonces toma como
+        // condiciones el primer argumento, que puede ser una condición o array de
         // condiciones.
         else {
             // TODO: Implementar una excepción si se pasa un segundo argumento.
@@ -408,7 +408,7 @@ class ConditionsHandler
             'conditionsWords',
         ]);
     }
-    
+
     /**
      * Extrae todas las condiciones, priorizando las "primeras encontradas"
      * Se asegura de que todas las palabras sean encontradas como
@@ -521,12 +521,12 @@ class ConditionsHandler
         // Quito la vinculación específica del modelo
         $pivot->primaryModel = null;
 
-        // Agrego la condición 
+        // Agrego la condición
         $pivot->andWhere([
-            "`$pivotTable`.`$remoteLocal`" 
+            "`$pivotTable`.`$remoteLocal`"
             => $relation->select(["`$remoteForeignTable`.`$remoteForeign`"])
         ]);
-        
+
         $processedCondition = [
             "`$localTable`.`$local`" => $pivot->select(["`$pivotTable`.`$foreign`"])
         ];
@@ -538,7 +538,7 @@ class ConditionsHandler
     /**
      * Procesa una "raw condition" directamente y devuelve el render de la condición
      * procesada.
-     * 
+     *
      * @param  array|string $rawCondition
      * @return ActiveQuery|array|bool
      */
