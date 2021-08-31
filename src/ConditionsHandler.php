@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @copyright Copyright (c) 2020-2021 PuntoGAP
+ * @link http://puntogap.com/
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 namespace PuntoGAP\YiiConditions;
 
 use yii\db\ActiveQuery;
@@ -8,7 +12,7 @@ use yii\db\ActiveQuery;
  * ConditionsHandler es la clase que se encarga de gestionar las condiciones y sus
  * métodos virtuales correspondientes.
  *
- * @author Matías Müller
+ * @author Matías Müller <matias.muller@hotmail.com>
  */
 class ConditionsHandler
 {
@@ -65,7 +69,7 @@ class ConditionsHandler
 
     /**
      * Evaluador de condición. Indica si la condición va a procesarse, según el
-     * método de evaluación especificado, que puede ser "If" o "Based On".
+     * método de evaluación especificado, que puede ser "If" o "BasedOn".
      *
      * @var bool
      */
@@ -266,7 +270,7 @@ class ConditionsHandler
      * en formato de "processed condition" o de ActiveQuery según el parámetro de la
      * instancia "returnsConditionOnly".
      *
-     * @param  array processed condition
+     * @param  array $processedCondition processed condition
      * @return ActiveQuery|array processed condition
      */
     protected function renderCondition($processedCondition)
@@ -548,7 +552,7 @@ class ConditionsHandler
      * Recibe una "raw condition" y devuelte la "processed condition"
      * correspondiente procesada recursivamente.
      *
-     * @param  array|string
+     * @param  array|string $rawCondition
      * @return array
      */
     protected function processCondition($rawCondition)
@@ -568,7 +572,7 @@ class ConditionsHandler
     /**
      * Realiza el procesamiento de una condición individual.
      *
-     * @param  string
+     * @param  string $elem
      * @return array|string
      */
     protected function processConditionElem($elem)
