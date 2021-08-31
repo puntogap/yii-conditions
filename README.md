@@ -23,6 +23,7 @@
     + [Condicional de evaluación "Based on"](#condicional-de-evaluación-based-on)
 - [Pasaje de argumentos a las condiciones](#pasaje-de-argumentos-a-las-condiciones)
 - [Modificador de resultado "Condition"](#modificador-de-resultado-condition)
+- [El método whereCondition()](#el-método-wherecondition)
 - [Condiciones predefinidas incluídas](#condiciones-predefinidas-incluídas)
 - [Etiquetas de condiciones](#etiquetas-de-condiciones)
 - [Términos utilizados](#términos-utilizados)
@@ -666,6 +667,24 @@ Foo::find()->orNotWithBarBasedOnCondition($condicion, [
     'and', 'oneCondition', 'anotherCondition',
 ])->all();
 ```
+
+
+## El método whereCondition()
+
+Permite evaluar de igual forma en que Yii utiliza el método `where()`, pero soporta "raw conditions". Útil para ejecutar una condición compuesta al vuelo sin necesidad de declararla. Acepta un segundo argumento con un array de opciones que pueden ser:
+
+```php
+// Activa el modo de condicional de evaluación
+$evaluation           // string 'If' | 'BasedOn'
+
+// Activa el modificador de resultado "Condition"
+$returnsConditionOnly // bool,
+
+// Asigna el operador en caso de agregar otra condición a una ya existente
+$combineWith          // string 'and' | 'or'
+```
+
+También existen los métodos `andWhereCondition()` y `orWhereCondition()`, análogos a los nativos `andWhere()` y `orWhere()` del framework.
 
 
 ## Condiciones predefinidas incluídas
