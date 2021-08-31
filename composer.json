@@ -3,13 +3,20 @@
     "type": "yii2-extension",
     "description": "Permite reutilizar condiciones de consultas pre-armadas de forma modular siguiendo el principio DRY.",
     "keywords": [
-        "matiasmuller",
         "yii",
         "conditions",
+        "extension",
         "queries",
+        "active",
+        "query",
+        "activerecord",
         "activequery",
         "db",
+        "puntogap",
         "model"
+        "matias",
+        "muller",
+        "matiasmuller",
     ],
     "homepage": "https://gitlab.com/puntogap/yii-conditions",
     "license": "MIT",
@@ -22,7 +29,7 @@
         }
     ],
     "require": {
-        "php" : ">=5.4|~7.0"
+        "php" : "~7.0"
     },
     "autoload": {
         "psr-4": {
