@@ -29,7 +29,8 @@
         }
     ],
     "require": {
-        "php" : "~7.0"
+        "php" : "~7.0",
+        "matiasmuller/methods-stacks": "*"
     },
     "autoload": {
         "psr-4": {
