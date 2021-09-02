@@ -476,6 +476,14 @@ class ConditionsHandler
             "`$localTable`.`$local`" => $relation->select(["`$foreignTable`.`$foreign`"]),
         ];
 
+        // Este refuerzo sirve para ayudar a la performance
+        // TODO: Confirmar mediante una consistente revisión que no traiga
+        // inconsistencias a la hora de anidar una tabla "sandwich", es decir: 
+        // "tabla1 > tabla2 > tabla1"
+        $relation->andWhere(
+            "`$localTable`.`$local` = `$foreignTable`.`$foreign`"
+        );
+
         // Devuelve la relación y la condición
         return (object)compact('relation', 'processedCondition');
     }
@@ -530,6 +538,17 @@ class ConditionsHandler
         $processedCondition = [
             "`$localTable`.`$local`" => $pivot->select(["`$pivotTable`.`$foreign`"])
         ];
+
+        // Este refuerzo sirve para ayudar a la performance
+        // TODO: Confirmar mediante una consistente revisión que no traiga
+        // inconsistencias a la hora de anidar una tabla "sandwich", es decir: 
+        // "tabla1 > tabla2 > tabla1"
+        $relation->andWhere(
+            "`$pivotTable`.`$remoteLocal` = `$remoteForeignTable`.`$remoteForeign`"
+        );
+        $pivot->andWhere(
+            "`$localTable`.`$local` = `$pivotTable`.`$foreign`"
+        );
 
         // Devuelve la relación y la condición
         return (object)compact('relation', 'processedCondition');
