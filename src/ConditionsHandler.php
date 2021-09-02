@@ -472,17 +472,19 @@ class ConditionsHandler
         // Quito la vinculación específica del modelo
         $relation->primaryModel = null;
 
+        // "Tablas.Campos" para las vinculaciones
+        $tLocal = "`$localTable`.`$local`";
+        $tForeign = "`$foreignTable`.`$foreign`";
+
         $processedCondition = [
-            "`$localTable`.`$local`" => $relation->select(["`$foreignTable`.`$foreign`"]),
+            $tLocal => $relation->select($tForeign),
         ];
 
         // Este refuerzo sirve para ayudar a la performance
         // TODO: Confirmar mediante una consistente revisión que no traiga
         // inconsistencias a la hora de anidar una tabla "sandwich", es decir: 
         // "tabla1 > tabla2 > tabla1"
-        $relation->andWhere(
-            "`$localTable`.`$local` = `$foreignTable`.`$foreign`"
-        );
+        $relation->andWhere("$tLocal = $tForeign");
 
         // Devuelve la relación y la condición
         return (object)compact('relation', 'processedCondition');
@@ -529,26 +531,27 @@ class ConditionsHandler
         // Quito la vinculación específica del modelo
         $pivot->primaryModel = null;
 
+        // "Tablas.Campos" para las vinculaciones
+        $tLocal = "`$localTable`.`$local`";
+        $tForeign = "`$pivotTable`.`$foreign`";
+        $tRemoteLocal = "`$pivotTable`.`$remoteLocal`";
+        $tRemoteForeign = "`$remoteForeignTable`.`$remoteForeign`";
+
         // Agrego la condición
         $pivot->andWhere([
-            "`$pivotTable`.`$remoteLocal`"
-            => $relation->select(["`$remoteForeignTable`.`$remoteForeign`"])
+            $tRemoteLocal => $relation->select($tRemoteForeign)
         ]);
 
         $processedCondition = [
-            "`$localTable`.`$local`" => $pivot->select(["`$pivotTable`.`$foreign`"])
+            $tLocal => $pivot->select($tForeign)
         ];
 
         // Este refuerzo sirve para ayudar a la performance
         // TODO: Confirmar mediante una consistente revisión que no traiga
         // inconsistencias a la hora de anidar una tabla "sandwich", es decir: 
         // "tabla1 > tabla2 > tabla1"
-        $relation->andWhere(
-            "`$pivotTable`.`$remoteLocal` = `$remoteForeignTable`.`$remoteForeign`"
-        );
-        $pivot->andWhere(
-            "`$localTable`.`$local` = `$pivotTable`.`$foreign`"
-        );
+        $relation->andWhere("$tRemoteLocal = $tRemoteForeign");
+        $pivot->andWhere("$tLocal = $tForeign");
 
         // Devuelve la relación y la condición
         return (object)compact('relation', 'processedCondition');
