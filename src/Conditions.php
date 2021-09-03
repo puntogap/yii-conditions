@@ -14,7 +14,7 @@ use PuntoGAP\YiiConditions\ConditionsHandler;
  * Conditions es el trait que se añade a las clases heredadas de
  * yii\base\ActiveQuery para añadirle la funcionalidad de Yii Conditions.
  *
- * @author Matías Müller <matias.muller@hotmail.com>
+ * @author Matías Müller <matias.muller@puntogap.com>
  */
 trait Conditions
 {

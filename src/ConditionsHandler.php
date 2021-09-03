@@ -12,7 +12,7 @@ use yii\db\ActiveQuery;
  * ConditionsHandler es la clase que se encarga de gestionar las condiciones y sus
  * métodos virtuales correspondientes.
  *
- * @author Matías Müller <matias.muller@hotmail.com>
+ * @author Matías Müller <matias.muller@puntogap.com>
  */
 class ConditionsHandler
 {
